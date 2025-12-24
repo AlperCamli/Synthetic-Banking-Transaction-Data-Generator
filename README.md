@@ -4,12 +4,12 @@
 ![License](https://img.shields.io/badge/License-MIT-green)
 ![Status](https://img.shields.io/badge/Status-Completed-success)
 
-## 📌 Project Overview
+## Project Overview
 This project is a sophisticated synthetic data generator designed to simulate realistic banking transaction environments. It was developed as part of an internship project at **VakıfBank Business Intelligence & Reporting Department** to overcome strict privacy regulations that prohibit the use of production customer data for development and testing.
 
 The generator produces a coherent, relational dataset (OLTP) capable of feeding an end-to-end Business Intelligence workflow—from data generation and ETL (Extract, Transform, Load) to Data Warehousing and DataMart creation.
 
-## 🚀 Key Features
+## Key Features
 * **Privacy Compliance:** Generates fully synthetic data that mirrors real-world consumer behavior without exposing sensitive information.
 * **Relational Integrity:** Produces **10 interrelated tables** with consistent surrogate keys, ensuring valid joins across Customers, Accounts, Transactions, and Merchants.
 * **Behavioral Segmentation:** Simulates distinct customer personas (e.g., *Blue Collar, Young Professionals, Students*) with unique income cycles, spending habits, and risk profiles.
@@ -17,7 +17,7 @@ The generator produces a coherent, relational dataset (OLTP) capable of feeding 
 * **Advanced Logic:** Includes "Discipline Factors" for budgeting simulation and a "Cash Shadow" mechanism to mimic untraceable cash usage after ATM withdrawals.
 * **Reproducibility:** Uses seeded randomization to ensure the same dataset can be regenerated consistently for testing pipelines.
 
-## 📂 Dataset Structure
+## Dataset Structure
 The generator creates a normalized schema consisting of the following 10 tables:
 
 | Table Name | Description |
@@ -33,12 +33,12 @@ The generator creates a normalized schema consisting of the following 10 tables:
 | **Cities** | Geographic data for branches and merchants. |
 | **Transaction Types** | Definitions for transfers, payments, and deposits. |
 
-## 🧠 Generation Logic & Mathematics
+## Generation Logic & Mathematics
 The core of this project lies in its ability to simulate human behavior mathematically rather than just randomization.
 
-## 🚀 Project Features
+## Project Features
 
-### 👤 Customer Modeling
+### Customer Modeling
 - Demographics (age, gender, education, employment)
 - Segmentation (students, young professionals, families, retirees, high-income)
 - Income composition:
@@ -52,7 +52,7 @@ The core of this project lies in its ability to simulate human behavior mathemat
   - Time-of-day activity
   - Weekly transaction intensity
 
-### 💳 Transaction Generation
+### Transaction Generation
 - One full year of transactions per customer
 - Deterministic recurring events:
   - Salary payments (fixed monthly day)
@@ -105,12 +105,9 @@ Each transaction follows:
   ### 2.2 The "Cash Shadow"
   To solve the issue of ATM withdrawals simply being "money exiting the system," this project implements a **Cash Shadow**. When a customer withdraws cash, a "shadow balance" is created. This temporarily suppresses visible card spending (POS transactions) until the cash is "spent" virtually, mimicking real-world cash substitution.
 
-## 🛠️ Tech Stack
-* **Language:** Python
-* **Libraries:** Pandas, NumPy (for vectorization and sampling), Faker
-* **Environment:** Dockerized setup (compatible with PostgreSQL and Spark)
 
-## 📊 End-to-End Workflow Context
+
+## End-to-End Workflow Context
 While this repository focuses on the **Data Generation** phase, it was designed as the first step in a larger pipeline:
 1.  **Generation:** Python scripts produce CSVs/DataFrames.
 2.  **OLTP Storage:** Data is loaded into **PostgreSQL** (Normalized Schema).
@@ -118,29 +115,9 @@ While this repository focuses on the **Data Generation** phase, it was designed 
 4.  **OLAP Storage:** Data is loaded into **ClickHouse** (Star Schema).
 5.  **Analytics:** DataMarts are built for reporting.
 
-## 🔧 Usage
-1.  Clone the repository:
-    ```bash
-    git clone [https://github.com/AlperCamli/Synthetic-Banking-Transaction-Data-Generator.git](https://github.com/AlperCamli/Synthetic-Banking-Transaction-Data-Generator.git)
-    ```
-2.  Install dependencies:
-    ```bash
-    pip install pandas numpy
-    ```
-3.  Run the generator:
-    ```bash
-    python main.py
-    ```
-    *(Note: Check configuration files to adjust the number of customers or date range).*
-
-## 📜 License
-This project is open-source and available under the MIT License.
-
-
-
 ---
 
-## 🗂 Repository Structure
+## Repository Structure
 ```bash
 Synthetic-Banking-Transaction-Data-Generator/
 │
@@ -175,126 +152,24 @@ Synthetic-Banking-Transaction-Data-Generator/
 
 ---
 
-## ⚙️ How It Works
+## Usage
+1.  Clone the repository:
+    ```bash
+    git clone https://github.com/AlperCamli/Synthetic-Banking-Transaction-Data-Generator.git
+    ```
+2.  Install dependencies:
+    ```bash
+    pip install pandas numpy
+    ```
+3.  Run the generators:
+    Generate customers
+    ```bash
+    python Data_Generators/customer_data.py
+    ```
+    Generate transactions
+    ```bash
+    python src/generate_transactions.py
+    ```
 
-### 1️⃣ Customer Generation
-Customers are generated using **segment-specific distributions**:
 
-- Income scaling
-- Employment patterns
-- Education levels
-- Channel & category weights
-- Transaction frequency
 
-### 2️⃣ Transaction Logic
-
-Each transaction follows:
-
-- **Date**  
-  - Uniform weekly distribution  
-  - Normal distribution by hour (`μ ≈ evening`, `σ` per segment)
-
-- **Category**
-  - Weighted by customer preferences
-
-- **Channel**
-  - Weighted by digital vs physical behavior
-
-- **Amount**
-  - Category-specific ranges
-  - Scaled by income level
-
-- **Balance Update**
-  - Credits increase balance
-  - Debits decrease balance
-
----
-
-## ▶️ Usage
-
-### Install dependencies
-```bash
-pip install -r requirements.txt
-Generate customers
-bash
-Copy code
-python src/generate_customers.py
-Generate transactions
-bash
-Copy code
-python src/generate_transactions.py
-Output:
-
-bash
-Copy code
-data/generated/transactions.csv
-📊 Example Analyses
-Included notebooks demonstrate:
-
-Age distribution
-
-Income distribution (weighted & unweighted)
-
-Transaction volume by segment
-
-Channel usage patterns
-
-Balance evolution over time
-
-🎯 Use Cases
-BI dashboards (Power BI / Tableau)
-
-SQL analytics practice
-
-Spark / ETL pipelines
-
-Fraud detection prototyping
-
-Data warehouse modeling
-
-ML feature engineering
-
-📜 License
-MIT License — free to use for academic and commercial purposes.
-
-yaml
-Copy code
-
----
-
-# 📄 requirements.txt
-
-pandas
-numpy
-matplotlib
-seaborn
-
-yaml
-Copy code
-
----
-
-# 📄 .gitignore
-
-pycache/
-.ipynb_checkpoints/
-.env
-data/generated/
-
-markdown
-Copy code
-
----
-
-# 🏆 Final Recommendation
-
-This project is **absolutely portfolio-ready**.
-
-If you want, next we can:
-- Add **ClickHouse / PostgreSQL schema**
-- Add **dbt models**
-- Add **Spark ETL**
-- Add **data quality checks**
-- Write a **project story for LinkedIn / CV**
-
-Just tell me what the next showcase goal is.
